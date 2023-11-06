@@ -21,7 +21,7 @@
             <MenuItem Header="File" Margin="4,0">
                 <MenuItem Header="New" />
                 <MenuItem Header="Open" Command="{Binding openDirectoryCommand ,Mode=TwoWay}" />
-                <MenuItem Header="Save" />
+                <MenuItem Header="Save" Command="{Binding saveFileCommand , Mode=TwoWay}"/>
                 <Separator />
                 <MenuItem Header="Exit" />
             </MenuItem>

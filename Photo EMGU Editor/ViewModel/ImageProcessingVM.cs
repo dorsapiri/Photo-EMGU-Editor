@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows;
+using System.IO.Pipes;
 
 namespace Photo_EMGU_Editor.ViewModel
 {
@@ -33,6 +34,7 @@ namespace Photo_EMGU_Editor.ViewModel
         public GalleryModel galleryModel { get; set; }
         public ObservableCollection<ImageModel> images { get; set; }
         public ICommand openDirectoryCommand { get; set; }
+        public ICommand saveFileCommand { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string propertyName)
         {
@@ -42,6 +44,7 @@ namespace Photo_EMGU_Editor.ViewModel
         {
             currentUser = user;
             openDirectoryCommand = new RelayCommand(OpenFile, canOpenFile);
+            saveFileCommand = new RelayCommand(SaveImage, canSaveImage);
             images = new ObservableCollection<ImageModel>();
             if (findGalleries())
             {
@@ -80,7 +83,7 @@ namespace Photo_EMGU_Editor.ViewModel
                 _selectedImage = value;
                 OnPropertyChanged(nameof(selectedImage));
                 ShowCurrentImage();
-                //LoadImage();
+                LoadImage();
             }
         }
         private void ShowCurrentImage()
@@ -130,6 +133,57 @@ namespace Photo_EMGU_Editor.ViewModel
                 }
             }
             //LoadImage();
+        }
+        private bool canSaveImage(Object sender) { return imageView != null;}
+        private void SaveImage(object sender) 
+        {
+            try
+            {  
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Image Files(*.jpg;*.png)|*.jpg ; *.jpeg ; *.png ; *.bmp |All Files|*.*";
+                bool? result = saveFileDialog.ShowDialog();
+                using(Stream fileStream = saveFileDialog.OpenFile())
+                {
+                    if (result == true)
+                    {
+                        string fileName = saveFileDialog.FileName;
+                        string extension = Path.GetExtension(fileName).ToLower();
+                        Image img = adjustedImage.ToBitmap();
+                        switch (extension)
+                        {
+                            case ".png":
+                                img.Save(fileStream, ImageFormat.Png);
+                                break;
+                            case ".jpg":
+                            case ".jpeg":
+                                img.Save(fileStream, ImageFormat.Jpeg);
+                                break;
+                            case ".bmp":
+                                img.Save(fileStream, ImageFormat.Bmp);
+                                break;
+                            default:
+                                MessageBox.Show("Unsupported file format");
+                                break;
+                        }
+                    }
+                }
+                
+            }
+            catch
+            {
+
+            }
+        }
+        private void imageToImageModel() {
+            string getOriginalImageFilename = Path.GetFileNameWithoutExtension(originalImageModel.FileLocation);
+            string newfileName = originalImageModel.FileLocation.Replace(getOriginalImageFilename, getOriginalImageFilename + "01");
+            string newLocation = Path.Combine(Path.GetDirectoryName(originalImageModel.FileLocation), newfileName);
+            adjustedImageModel = new ImageModel()
+            {
+                FileName = newfileName,
+                FileLocation = newLocation,
+                ImageData = imagedata,
+            };
         }
         private int makeGallery()
         {
@@ -234,18 +288,7 @@ namespace Photo_EMGU_Editor.ViewModel
 
             
         }
-        private void newEditedImage() 
-        {
-            string getOriginalImageFilename = Path.GetFileNameWithoutExtension(originalImageModel.FileLocation);
-            string newfileName = originalImageModel.FileLocation.Replace(getOriginalImageFilename, getOriginalImageFilename + "01");
-            string newLocation = Path.Combine(Path.GetDirectoryName(originalImageModel.FileLocation), newfileName);
-            adjustedImageModel = new ImageModel()
-            {
-                FileName = newfileName,
-                FileLocation = newLocation,
-                ImageData = imagedata,
-            };
-        }
+        
         private ImageSource _displayedImage;
 
         public ImageSource displayImage
