@@ -1,0 +1,65 @@
+﻿<Window x:Class="Photo_EMGU_Editor.View.ImageProcessingV"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Photo_EMGU_Editor.View"
+        mc:Ignorable="d"
+        Title="ImageProcessingV" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="300" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu HorizontalAlignment="Stretch" FontSize="15" Grid.ColumnSpan="3" Grid.Row="0" Padding="6">
+            <MenuItem Header="File" Margin="4,0">
+                <MenuItem Header="New" />
+                <MenuItem Header="Open" Command="{Binding openDirectoryCommand ,Mode=TwoWay}" />
+                <MenuItem Header="Save" />
+                <Separator />
+                <MenuItem Header="Exit" />
+            </MenuItem>
+            <MenuItem Header="Edit" Margin="4,0">
+                <MenuItem Header="Cut" />
+                <MenuItem Header="Copy" />
+                <MenuItem Header="Paste" />
+            </MenuItem>
+        </Menu>
+        <Image Source="{Binding imageView}" Grid.Column="0" Grid.Row="1" Margin="10"/>
+        <Image Source="{Binding displayImage}" Grid.Column="1" Grid.Row="1"/>
+        <Border Grid.ColumnSpan="2" Grid.Row="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="94" VerticalAlignment="Bottom">
+                <StackPanel  Width="150">
+                    <Label Content="Brightness "/>
+                    <Slider Name="slBrightness" Minimum="0" Maximum="2" Value="{Binding Brightness}" TickFrequency="0.1" SmallChange="0.1" LargeChange="0.2"/>
+                    <Label Content="{Binding ElementName=slBrightness ,Path=Value}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Width="150">
+                    <Label Content="Contrast "/>
+                    <Slider Name="slContrast" Minimum="0" Maximum="2" Value="{Binding Contrust}" TickFrequency="0.1" SmallChange="0.1" LargeChange="0.2"/>
+                    <Label Content="{Binding ElementName=slContrast ,Path=Value}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Width="150">
+                    <Label Content="Sharpening "/>
+                    <Slider Name="slSharpening" Minimum="0" Maximum="2" Value="{Binding Sharprning}" TickFrequency="0.1" SmallChange="0.1" LargeChange="0.2"/>
+                    <Label Content="{Binding ElementName=slSharpening ,Path=Value}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <ListView Grid.Column="3" Grid.Row="1" ItemsSource="{Binding images}" SelectedItem="{Binding selectedImage}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding FileName}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>
