@@ -1,4 +1,5 @@
-﻿using Photo_EMGU_Editor.View;
+﻿using Photo_EMGU_Editor.Model;
+using Photo_EMGU_Editor.View;
 using Photo_EMGU_Editor.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -17,10 +18,22 @@ namespace Photo_EMGU_Editor
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            SignUpV signUpV = new SignUpV();
+            /*SignUpV signUpV = new SignUpV();
             SignUpVM signUpVM = new SignUpVM();
             signUpV.DataContext = signUpVM;
-            signUpV.ShowDialog();
+            signUpV.ShowDialog();*/
+
+            ImageProcessingV imageProcessingV = new ImageProcessingV();
+            User user = new User() {
+                UserName = "dorsapiri",
+                Id= 1,
+                Name="Dorsa",
+                Password="1234",
+                Lastname = "Piri"
+            };
+            ImageProcessingVM imageProcessingVM = new ImageProcessingVM(user);
+            imageProcessingV.DataContext = imageProcessingVM;
+            imageProcessingV.ShowDialog();
         }
     }
 }

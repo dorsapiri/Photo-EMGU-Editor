@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Windows;
 
 namespace Photo_EMGU_Editor.ViewModel
 {
@@ -28,6 +29,7 @@ namespace Photo_EMGU_Editor.ViewModel
         public ImageModel adjustedImageModel { get; set; } = new ImageModel();
         private Image<Bgr, byte> originalImage;
         private Image<Bgr, byte> adjustedImage;
+        private Image<Gray, Single> adjustedImage2;
         public GalleryModel galleryModel { get; set; }
         public ObservableCollection<ImageModel> images { get; set; }
         public ICommand openDirectoryCommand { get; set; }
@@ -78,12 +80,13 @@ namespace Photo_EMGU_Editor.ViewModel
                 _selectedImage = value;
                 OnPropertyChanged(nameof(selectedImage));
                 ShowCurrentImage();
+                //LoadImage();
             }
         }
         private void ShowCurrentImage()
         {
             imageView = selectedImage.FileLocation;
-            originalImageModel = selectedImage; 
+            originalImageModel = selectedImage;
         }
         private string _imageView;
         public string imageView
@@ -105,17 +108,17 @@ namespace Photo_EMGU_Editor.ViewModel
             if (result == true)
             {
                 imageView = OpenDialog.FileName;
+                int findgalleryid;
+                if (findGalleries())
+                {
+                    findgalleryid = galleryModel.Id;
+                }
+                else
+                {
+                    findgalleryid = makeGallery();
+                }
                 using (DatabaseConnection db = new DatabaseConnection())
                 {
-                    int findgalleryid;
-                    if (findGalleries())
-                    {
-                        findgalleryid = galleryModel.Id;
-                    }
-                    else
-                    {
-                        findgalleryid = makeGallery();
-                    }
                     originalImageModel = new ImageModel
                     {
                         FileName = OpenDialog.SafeFileName,
@@ -124,10 +127,9 @@ namespace Photo_EMGU_Editor.ViewModel
                         GalleryId = findgalleryid
                     };
                     db.IImageAccess.insertImage(originalImageModel);
-
                 }
             }
-            LoadImage();
+            //LoadImage();
         }
         private int makeGallery()
         {
@@ -137,7 +139,6 @@ namespace Photo_EMGU_Editor.ViewModel
                 galleryModel = new GalleryModel()
                 {
                     UserId = currentUser.Id,
-                    // User = currentUser,
                 };
                 db.IGalleryDataAccess.createGallery(galleryModel);
                 Galleryid = galleryModel.Id;
@@ -153,6 +154,7 @@ namespace Photo_EMGU_Editor.ViewModel
             {
                 _Brightness = value;
                 OnPropertyChanged(nameof(Brightness));
+                LoadImage();
             }
         }
 
@@ -164,6 +166,7 @@ namespace Photo_EMGU_Editor.ViewModel
             {
                 _Contrust = value;
                 OnPropertyChanged(nameof(_Contrust));
+                LoadImage();
             }
         }
 
@@ -175,31 +178,42 @@ namespace Photo_EMGU_Editor.ViewModel
             {
                 _Sharpening = value;
                 OnPropertyChanged(nameof(Sharprning));
+                LoadImage();
             }
         }
 
         private void LoadImage()
         {
-            originalImage = new Image<Bgr, byte>(selectedImage.FileLocation);
+            originalImage = new Image<Bgr, byte>(originalImageModel.FileLocation);
             adjustedImage = new Image<Bgr, byte>(originalImage.Size);
-
-            ApplyAdjustment();
-
-            images.Add(adjustedImageModel);
+            //adjustedImage2 = new Image<Gray, Single>(originalImage.Size);
+            try
+            {
+                ApplyAdjustment();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void ApplyAdjustment()
         {
+            
             float brightnessFactor = (float)Brightness;
             float contrustFactor = (float)Contrust;
             float sharpeningFactor = (float)Sharprning;
 
-            adjustedImage = originalImage.CopyBlank();
+            //adjustedImage = originalImage.CopyBlank();
+            adjustedImage = originalImage;
 
             adjustedImage = adjustedImage.Mul(brightnessFactor);
-            adjustedImage = adjustedImage.Mul(contrustFactor);
+            adjustedImage = adjustedImage.Mul(contrustFactor) + brightnessFactor;
             adjustedImage = adjustedImage.SmoothGaussian(5, 5, sharpeningFactor, sharpeningFactor);
 
+            //adjustedImage2 = originalImage.Convert<Gray, Single>(); 
+            
             Bitmap bmp = adjustedImage.ToBitmap();
             BitmapImage bitmapImage = new BitmapImage();
             
