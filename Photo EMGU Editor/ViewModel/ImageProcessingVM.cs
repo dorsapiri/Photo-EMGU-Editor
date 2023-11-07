@@ -105,7 +105,7 @@ namespace Photo_EMGU_Editor.ViewModel
         private void OpenFile(object sender)
         {
             OpenFileDialog OpenDialog = new OpenFileDialog();
-            OpenDialog.Filter = "Image Files(*.jpg;*.png)|*.jpg ; *.jpeg ; *.png ; *.bmp |All Files|*.*";
+            OpenDialog.Filter = "Image Files|*.JPG; *.PNG; *.JFIF; *.jpg ; *.jpeg ; *.png ; *.bmp; *.jfif |All Files|*.*";
 
             bool? result = OpenDialog.ShowDialog();
             if (result == true)
@@ -238,9 +238,7 @@ namespace Photo_EMGU_Editor.ViewModel
             {
                 MessageBox.Show(ex.Message);
             }
-            
         }
-
         private void ApplyAdjustment()
         {
             
@@ -279,7 +277,6 @@ namespace Photo_EMGU_Editor.ViewModel
         }
         
         private ImageSource _displayedImage;
-
         public ImageSource displayImage
         {
             get { return _displayedImage; }
