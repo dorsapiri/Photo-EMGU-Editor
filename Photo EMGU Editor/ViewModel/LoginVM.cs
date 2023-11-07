@@ -22,10 +22,30 @@ namespace Photo_EMGU_Editor.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         public ICommand loginCommand { get; set; }
+        public ICommand goToSignUp { get; set; }
         public LoginVM()
         {
             loginCommand = new RelayCommand(btnSignIn_Click, canSignIn);
+            goToSignUp = new RelayCommand(lnkGoToSignUp, canGoToSignUo);
         }
+
+        private bool canGoToSignUo(object sender)
+        {
+            return true;
+        }
+
+        private void lnkGoToSignUp(object sender)
+        {
+            SignUpV signUpV = new SignUpV();
+            SignUpVM signUpVM = new SignUpVM();
+            signUpV.DataContext = signUpVM;
+            if(sender is Window window)
+            {
+                window.Close();
+            }
+            signUpV.ShowDialog();
+        }
+
         private string _tbUsername;
         public string tbUsername
         {
@@ -45,6 +65,17 @@ namespace Photo_EMGU_Editor.ViewModel
             {
                 _tbPassword = value;
                 OnPropertyChanged(nameof(tbPassword));
+            }
+        }
+        private string _tbError;
+
+        public string tbError
+        {
+            get { return _tbError; }
+            set 
+            { 
+                _tbError = value; 
+                OnPropertyChanged(nameof(tbError));
             }
         }
 
@@ -68,6 +99,10 @@ namespace Photo_EMGU_Editor.ViewModel
                         window.Close();
                     }
                     mainWindow.ShowDialog();
+                }
+                else
+                {
+                    tbError = "This User is not valid!";
                 }
             }
 

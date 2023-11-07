@@ -36,12 +36,12 @@
         <TextBox Grid.Row="4" Grid.Column="1" Margin="5,20,20,20"  Text="{Binding tbPassword}"/>
 
         <TextBlock Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-    <Hyperlink Command="{Binding alreadyAmember_login}">
-        <Run Text="Already a member? LogIn"/>
-    </Hyperlink>
+            <Hyperlink Command="{Binding alreadyAmember_login}" CommandParameter="{Binding RelativeSource={RelativeSource  AncestorType=Window}}">
+                <Run Text="Already a member? LogIn"/>
+            </Hyperlink>
         </TextBlock>
 
-        <Button Command="{Binding btnSignUp}" Content="Sign Up" Grid.Row="6" Grid.Column="1" Margin="5,20,20,20" Background="Black" Foreground="White" FontSize="20"/>
+        <Button Command="{Binding btnSignUp}" CommandParameter="{Binding RelativeSource={RelativeSource  AncestorType=Window}}" Content="Sign Up" Grid.Row="6" Grid.Column="1" Margin="5,20,20,20" Background="Black" Foreground="White" FontSize="20"/>
 
     </Grid>
 </Window>

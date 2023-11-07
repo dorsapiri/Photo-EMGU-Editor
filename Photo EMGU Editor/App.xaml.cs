@@ -23,7 +23,12 @@ namespace Photo_EMGU_Editor
             signUpV.DataContext = signUpVM;
             signUpV.ShowDialog();*/
 
-            ImageProcessingV imageProcessingV = new ImageProcessingV();
+            LoginV loginV = new LoginV();
+            LoginVM loginVM = new LoginVM();
+            loginV.DataContext = loginVM;
+            loginV.ShowDialog();
+
+            /*ImageProcessingV imageProcessingV = new ImageProcessingV();
             User user = new User() {
                 UserName = "dorsapiri",
                 Id= 1,
@@ -33,7 +38,7 @@ namespace Photo_EMGU_Editor
             };
             ImageProcessingVM imageProcessingVM = new ImageProcessingVM(user);
             imageProcessingV.DataContext = imageProcessingVM;
-            imageProcessingV.ShowDialog();
+            imageProcessingV.ShowDialog();*/
         }
     }
 }

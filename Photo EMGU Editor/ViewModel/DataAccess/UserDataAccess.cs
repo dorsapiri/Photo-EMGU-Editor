@@ -76,7 +76,6 @@ namespace Photo_EMGU_Editor.ViewModel.DataAccess
             }
             catch
             {
-                MessageBox.Show("This user is not valid!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
         }

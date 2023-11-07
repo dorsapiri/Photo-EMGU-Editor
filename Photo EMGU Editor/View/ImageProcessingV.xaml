@@ -8,9 +8,9 @@
         Title="ImageProcessingV" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="30*"/>
+            <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -25,11 +25,11 @@
                 <Separator />
                 <MenuItem Header="Exit" />
             </MenuItem>
-            <MenuItem Header="Edit" Margin="4,0">
+            <!--<MenuItem Header="Edit" Margin="4,0">
                 <MenuItem Header="Cut" />
                 <MenuItem Header="Copy" />
                 <MenuItem Header="Paste" />
-            </MenuItem>
+            </MenuItem>-->
         </Menu>
         <Image Source="{Binding imageView}" Grid.Column="0" Grid.Row="1" Margin="10"/>
         <Image Source="{Binding displayImage}" Grid.Column="1" Grid.Row="1"/>

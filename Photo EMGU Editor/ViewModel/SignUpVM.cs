@@ -31,17 +31,17 @@ namespace Photo_EMGU_Editor.ViewModel
             LoginVM loginVM = new LoginVM();
             LoginV loginV = new LoginV();
             loginV.DataContext = loginVM;
-            CloseWindow();
+            if(sender is Window window)
+            {
+                window.Close();
+            }
             loginV.ShowDialog();
         }
         public bool canalreadyAmemberExecute(object sender)
         {
             return true;
         }
-        public void CloseWindow()
-        {
-            Application.Current.MainWindow.Close();
-        }
+        
 
         private string _tbFirstName;
         public string tbFirstName
@@ -106,7 +106,10 @@ namespace Photo_EMGU_Editor.ViewModel
             LoginVM loginVM = new LoginVM();
             LoginV loginV = new LoginV();
             loginV.DataContext = loginVM;
-            CloseWindow();
+            if(sender is Window window)
+            {
+                window.Close();
+            }
             loginV.ShowDialog();
 
         }
