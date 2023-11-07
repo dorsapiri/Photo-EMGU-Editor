@@ -17,8 +17,9 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Sign Up" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" Grid.Column="1" Height="40" Margin="8,0,0,0" Width="104"/>
@@ -42,6 +43,6 @@
         </TextBlock>
 
         <Button Command="{Binding btnSignUp}" CommandParameter="{Binding RelativeSource={RelativeSource  AncestorType=Window}}" Content="Sign Up" Grid.Row="6" Grid.Column="1" Margin="5,20,20,20" Background="Black" Foreground="White" FontSize="20"/>
-
+        <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding tbError}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red"/>
     </Grid>
 </Window>

@@ -91,27 +91,56 @@ namespace Photo_EMGU_Editor.ViewModel
         public bool btnSignUpCanExecute(object sender) { return true; }
         public void btnSignUp_Click(Object sender)
         {
-            using (DatabaseConnection db = new DatabaseConnection())
+            User NewUser = new User()
             {
-                User NewUser = new User()
+                Name = tbFirstName,
+                Lastname = tbLastName,
+                UserName = tbUserName,
+                Password = tbPassword
+            };
+            if (!isUserExist(NewUser))
+            {
+                using (DatabaseConnection db = new DatabaseConnection())
                 {
-                    Name = tbFirstName,
-                    Lastname = tbLastName,
-                    UserName = tbUserName,
-                    Password = tbPassword
-                };
-
-                db.IUserDataAccess.insertUser(NewUser);
+                    db.IUserDataAccess.insertUser(NewUser);
+                }
+                LoginVM loginVM = new LoginVM();
+                LoginV loginV = new LoginV();
+                loginV.DataContext = loginVM;
+                if (sender is Window window)
+                {
+                    window.Close();
+                }
+                loginV.ShowDialog();
             }
-            LoginVM loginVM = new LoginVM();
-            LoginV loginV = new LoginV();
-            loginV.DataContext = loginVM;
-            if(sender is Window window)
+        }
+        private string _tbError;
+
+        public string tbError
+        {
+            get { return _tbError; }
+            set 
+            { 
+                _tbError = value;
+                OnPropertyChanged(nameof(tbError));
+            }
+        }
+
+        private bool isUserExist(User user)
+        {
+            bool userExist = false;
+            if (user != null)
             {
-                window.Close();
+                using(DatabaseConnection db = new DatabaseConnection())
+                {
+                    if(db.IUserDataAccess.selectUser(user.UserName, user.Password) != null)
+                    {
+                        userExist = true;
+                        tbError = "This User is Exist.";
+                    }
+                }
             }
-            loginV.ShowDialog();
-
+            return userExist;
         }
     }
 }

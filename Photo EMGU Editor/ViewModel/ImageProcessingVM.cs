@@ -174,17 +174,6 @@ namespace Photo_EMGU_Editor.ViewModel
 
             }
         }
-        private void imageToImageModel() {
-            string getOriginalImageFilename = Path.GetFileNameWithoutExtension(originalImageModel.FileLocation);
-            string newfileName = originalImageModel.FileLocation.Replace(getOriginalImageFilename, getOriginalImageFilename + "01");
-            string newLocation = Path.Combine(Path.GetDirectoryName(originalImageModel.FileLocation), newfileName);
-            adjustedImageModel = new ImageModel()
-            {
-                FileName = newfileName,
-                FileLocation = newLocation,
-                ImageData = imagedata,
-            };
-        }
         private int makeGallery()
         {
             int Galleryid = 0;
@@ -212,7 +201,7 @@ namespace Photo_EMGU_Editor.ViewModel
             }
         }
 
-        private double _Contrust;
+        private double _Contrust = 1.0;
         public double Contrust
         {
             get { return _Contrust; }
@@ -224,7 +213,7 @@ namespace Photo_EMGU_Editor.ViewModel
             }
         }
 
-        private double _Sharpening;
+        private double _Sharpening = 1.0;
         public double Sharprning
         {
             get { return _Sharpening; }
