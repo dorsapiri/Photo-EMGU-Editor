@@ -25,9 +25,8 @@ namespace Photo_EMGU_Editor.ViewModel
     public class ImageProcessingVM : INotifyPropertyChanged
     {
         public User currentUser;
-        private byte[] imagedata;
+        //private byte[] imagedata;
         public ImageModel originalImageModel { get; set; } = new ImageModel();
-        public ImageModel adjustedImageModel { get; set; } = new ImageModel();
         private Image<Bgr, byte> originalImage;
         private Image<Bgr, byte> adjustedImage;
         private Image<Gray, Single> adjustedImage2;
@@ -130,9 +129,9 @@ namespace Photo_EMGU_Editor.ViewModel
                         GalleryId = findgalleryid
                     };
                     db.IImageAccess.insertImage(originalImageModel);
+                    images.Add(originalImageModel);
                 }
             }
-            //LoadImage();
         }
         private bool canSaveImage(Object sender) { return imageView != null;}
         private void SaveImage(object sender) 
@@ -250,7 +249,7 @@ namespace Photo_EMGU_Editor.ViewModel
             adjustedImage = originalImage;
 
             adjustedImage = adjustedImage.Mul(brightnessFactor);
-            adjustedImage = adjustedImage.Mul(contrustFactor) + brightnessFactor;
+            adjustedImage = adjustedImage.Mul(contrustFactor);
             adjustedImage = adjustedImage.SmoothGaussian(5, 5, sharpeningFactor, sharpeningFactor);
 
             //adjustedImage2 = originalImage.Convert<Gray, Single>(); 
@@ -266,7 +265,7 @@ namespace Photo_EMGU_Editor.ViewModel
 
                 bitmapImage.BeginInit();
                 bitmapImage.StreamSource = memory;
-                imagedata = memory.ToArray();
+                //imagedata = memory.ToArray();
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                 bitmapImage.EndInit();
                 bitmapImage.Freeze();
