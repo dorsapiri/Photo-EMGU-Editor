@@ -149,20 +149,20 @@ namespace Photo_EMGU_Editor.ViewModel
             return userExist;
         }
 
-        //static string ConvertToUnsecureString(SecureString securePassword)
-        //{
-        //    IntPtr unmanagedString = IntPtr.Zero;
-        //    //IntPtr unmanagedString;
+        static string ConvertToUnsecureString(SecureString securePassword)
+        {
+            IntPtr unmanagedString = IntPtr.Zero;
+            //IntPtr unmanagedString;
 
-        //    try
-        //    {
-        //        unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
-        //        return Marshal.PtrToStringUni(unmanagedString);
-        //    }
-        //    finally
-        //    {
-        //        Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
-        //    }
-        //}
+            try
+            {
+                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
+                return Marshal.PtrToStringUni(unmanagedString);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
+            }
+        }
     }
 }
