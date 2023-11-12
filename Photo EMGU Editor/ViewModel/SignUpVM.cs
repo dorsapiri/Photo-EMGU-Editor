@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -84,8 +86,12 @@ namespace Photo_EMGU_Editor.ViewModel
             get { return _tbPassword; }
             set
             {
-                _tbPassword = value;
-                OnPropertyChanged(nameof(tbPassword));
+                if(_tbPassword != value)
+                {
+                    _tbPassword = value;
+                    OnPropertyChanged(nameof(tbPassword));
+                }
+                
             }
         }
         public bool btnSignUpCanExecute(object sender) { return true; }
@@ -96,7 +102,7 @@ namespace Photo_EMGU_Editor.ViewModel
                 Name = tbFirstName,
                 Lastname = tbLastName,
                 UserName = tbUserName,
-                Password = tbPassword
+                Password =tbPassword
             };
             if (!isUserExist(NewUser))
             {
@@ -142,5 +148,21 @@ namespace Photo_EMGU_Editor.ViewModel
             }
             return userExist;
         }
+
+        //static string ConvertToUnsecureString(SecureString securePassword)
+        //{
+        //    IntPtr unmanagedString = IntPtr.Zero;
+        //    //IntPtr unmanagedString;
+
+        //    try
+        //    {
+        //        unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(securePassword);
+        //        return Marshal.PtrToStringUni(unmanagedString);
+        //    }
+        //    finally
+        //    {
+        //        Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
+        //    }
+        //}
     }
 }
