@@ -34,6 +34,7 @@ namespace Photo_EMGU_Editor.ViewModel
         public ObservableCollection<ImageModel> images { get; set; }
         public ICommand openDirectoryCommand { get; set; }
         public ICommand saveFileCommand { get; set; }
+        public ICommand exiteWindow { get; set; }
         public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string propertyName)
         {
@@ -44,12 +45,22 @@ namespace Photo_EMGU_Editor.ViewModel
             currentUser = user;
             openDirectoryCommand = new RelayCommand(OpenFile, canOpenFile);
             saveFileCommand = new RelayCommand(SaveImage, canSaveImage);
+            exiteWindow = new RelayCommand(btnExite_Click, canExite);
             images = new ObservableCollection<ImageModel>();
             if (findGalleries())
             {
                 fillListView(galleryModel.Id);
             }
             
+        }
+        private bool canExite(object sender)
+        {
+            return true;
+        }
+
+        private void btnExite_Click(object sender)
+        {
+            Application.Current.Shutdown();
         }
         public bool findGalleries()
         {

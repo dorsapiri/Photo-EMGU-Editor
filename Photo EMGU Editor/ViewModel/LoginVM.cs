@@ -25,10 +25,22 @@ namespace Photo_EMGU_Editor.ViewModel
         }
         public ICommand loginCommand { get; set; }
         public ICommand goToSignUp { get; set; }
+        public ICommand cancelWindow { get; set; }
         public LoginVM()
         {
             loginCommand = new RelayCommand(btnSignIn_Click, canSignIn);
             goToSignUp = new RelayCommand(lnkGoToSignUp, canGoToSignUo);
+            cancelWindow = new RelayCommand(btnCancel_Click, canCancel);
+        }
+
+        private bool canCancel(object sender)
+        {
+            return true;
+        }
+
+        private void btnCancel_Click(object sender)
+        {
+            Application.Current.Shutdown();
         }
 
         private bool canGoToSignUo(object sender)

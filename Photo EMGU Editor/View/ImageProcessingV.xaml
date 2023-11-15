@@ -19,11 +19,10 @@
         </Grid.RowDefinitions>
         <Menu HorizontalAlignment="Stretch" FontSize="15" Grid.ColumnSpan="3" Grid.Row="0" Padding="6">
             <MenuItem Header="File" Margin="4,0">
-                <MenuItem Header="New" />
                 <MenuItem Header="Open" Command="{Binding openDirectoryCommand ,Mode=TwoWay}" />
                 <MenuItem Header="Save" Command="{Binding saveFileCommand , Mode=TwoWay}"/>
                 <Separator />
-                <MenuItem Header="Exit" />
+                <MenuItem Header="Exit" Command="{Binding exiteWindow}" />
             </MenuItem>
             <!--<MenuItem Header="Edit" Margin="4,0">
                 <MenuItem Header="Cut" />

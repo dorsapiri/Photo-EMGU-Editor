@@ -23,10 +23,11 @@ namespace Photo_EMGU_Editor.ViewModel
         }
         public ICommand alreadyAmember_login { get; set; }
         public ICommand btnSignUp { get; set; }
+        
         public SignUpVM()
         {
             alreadyAmember_login = new RelayCommand(alreadyAmember_login_Click, canalreadyAmemberExecute);
-            btnSignUp = new RelayCommand(btnSignUp_Click, btnSignUpCanExecute);
+            btnSignUp = new RelayCommand(btnSignUp_Click, btnSignUpCanExecute);   
         }
         public void alreadyAmember_login_Click(Object sender)
         {
